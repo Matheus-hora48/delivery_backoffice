@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/ui/helpers/size_extensions.dart';
+import 'menu/menu_bar.dart' as menu;
 
 class BaseLoyout extends StatelessWidget {
   final Widget body;
@@ -42,9 +43,7 @@ class BaseLoyout extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Container(
-                      
-                    ),
+                    const menu.MenuBar(),
                     Expanded(
                       child: Container(
                         padding: const EdgeInsets.only(left: 20),
