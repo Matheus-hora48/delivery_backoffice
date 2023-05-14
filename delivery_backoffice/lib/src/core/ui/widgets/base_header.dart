@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../styles/text_style.dart';
+
 class BaseHeader extends StatelessWidget {
   final String title;
   final ValueChanged<String>? seachChanged;
@@ -36,12 +38,47 @@ class BaseHeader extends StatelessWidget {
                     contentPadding: EdgeInsets.zero,
                     prefixIcon: Icon(
                       Icons.search,
-                      size: contrains.maxWidth * 0.03,
+                      size: contrains.maxWidth * 0.02,
+                    ),
+                    label: Text(
+                      'Buscar',
+                      style: context.textStyles.textRegular.copyWith(
+                        fontSize: 12,
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
                 ),
               ),
-            )
+            ),
+            Container(
+              width: contrains.maxWidth * .65,
+              padding: const EdgeInsets.all(8),
+              child: Text(
+                title,
+                textAlign: TextAlign.center,
+                style: context.textStyles.textTitle.copyWith(
+                  decoration: TextDecoration.underline,
+                  decorationThickness: 2,
+                ),
+              ),
+            ),
+            Visibility(
+              visible: addButton == true,
+              child: SizedBox(
+                width: contrains.maxWidth * .15,
+                child: OutlinedButton.icon(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.add,
+                    size: contrains.maxWidth * 0.02,
+                  ),
+                  label: Text(
+                    buttonLabel,
+                  ),
+                ),
+              ),
+            ),
           ],
         );
       },
