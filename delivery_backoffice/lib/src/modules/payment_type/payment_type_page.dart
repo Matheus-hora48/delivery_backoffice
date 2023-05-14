@@ -79,7 +79,9 @@ class _PaymentTypePageState extends State<PaymentTypePage>
                   ),
                   itemBuilder: (context, index) {
                     final paymentTypeModel = controller.paymentTypes[index];
-                    return const PaymentTypeItem();
+                    return PaymentTypeItem(
+                      payment: paymentTypeModel,
+                    );
                   },
                 );
               },
