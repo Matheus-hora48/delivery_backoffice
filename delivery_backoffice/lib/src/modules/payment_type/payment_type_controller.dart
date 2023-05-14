@@ -12,6 +12,7 @@ enum PaymentTypeStateStatus {
   loaded,
   error,
   addOrUpdatePayment,
+  saved,
 }
 
 class PaymentTypeController = PaymentTypeControllerBase
@@ -66,5 +67,23 @@ abstract class PaymentTypeControllerBase with Store {
     await Future.delayed(Duration.zero);
     _paymentTypeSelected = payment;
     _status = PaymentTypeStateStatus.addOrUpdatePayment;
+  }
+
+  @action
+  Future<void> savePayment({
+    int? id,
+    required String name,
+    required String acrony,
+    required bool enabled,
+  }) async {
+    _status = PaymentTypeStateStatus.loading;
+    final paymentTypeModel = PaymentTypeModel(
+      id: id,
+      name: name,
+      acronym: acrony,
+      enabled: enabled,
+    );
+    await _paymentTypeRepository.save(paymentTypeModel);
+    _status = PaymentTypeStateStatus.saved;
   }
 }
