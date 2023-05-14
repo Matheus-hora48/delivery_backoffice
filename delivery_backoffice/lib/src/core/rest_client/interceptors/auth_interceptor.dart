@@ -11,9 +11,8 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    final acesstoken = storage.getData(SessionStorageKeys.accessToken.key);
-    options.headers['Authorization'] = 'Bearer $acesstoken';
-    super.onRequest(options, handler);
+    final accessToken = storage.getData(SessionStorageKeys.accessToken.key);
+    options.headers['Authorization'] = 'Bearer $accessToken';
     handler.next(options);
   }
 
@@ -24,6 +23,5 @@ class AuthInterceptor extends Interceptor {
     } else {
       handler.next(err);
     }
-    super.onError(err, handler);
   }
 }

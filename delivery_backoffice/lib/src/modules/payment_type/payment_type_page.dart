@@ -1,10 +1,58 @@
 import 'package:delivery_backoffice/src/modules/payment_type/widgets/payment_type_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:mobx/mobx.dart';
 
+import '../../core/ui/helpers/loader.dart';
+import '../../core/ui/helpers/messages.dart';
+import 'payment_type_controller.dart';
 import 'widgets/payment_type_header.dart';
 
-class PaymentTypePage extends StatelessWidget {
+class PaymentTypePage extends StatefulWidget {
   const PaymentTypePage({Key? key}) : super(key: key);
+
+  @override
+  State<PaymentTypePage> createState() => _PaymentTypePageState();
+}
+
+class _PaymentTypePageState extends State<PaymentTypePage>
+    with Loader, Messages {
+  final controller = Modular.get<PaymentTypeController>();
+
+  final disposer = <ReactionDisposer>[];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        final statusDisposer = reaction(
+          (_) => controller.status,
+          (status) {
+            switch (status) {
+              case PaymentTypeStateStatus.initial:
+                break;
+              case PaymentTypeStateStatus.loading:
+                showLoader();
+                break;
+              case PaymentTypeStateStatus.loaded:
+                hideLoader();
+                break;
+              case PaymentTypeStateStatus.error:
+                hideLoader();
+                showError(
+                  controller.errorMessage ??
+                      'Erro ao buscar formas de pagamento',
+                );
+                break;
+            }
+          },
+        );
+        disposer.addAll([statusDisposer]);
+        controller.loadPayments();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

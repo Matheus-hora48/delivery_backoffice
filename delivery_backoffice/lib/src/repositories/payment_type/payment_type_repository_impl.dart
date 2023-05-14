@@ -13,12 +13,12 @@ class PaymentTypeRepositoryImpl implements PaymentTypeRepository {
   PaymentTypeRepositoryImpl(this._dio);
 
   @override
-  Future<List<PaymentTypeModel>> findAll(bool? enable) async {
+  Future<List<PaymentTypeModel>> findAll(bool? enabled) async {
     try {
       final paymentResult = await _dio.auth().get(
-        '/payment_type',
+        '/payment-types',
         queryParameters: {
-          if (enable != null) 'enable': enable,
+          if (enabled != null) 'enabled': enabled,
         },
       );
       return paymentResult.data
@@ -34,13 +34,14 @@ class PaymentTypeRepositoryImpl implements PaymentTypeRepository {
   Future<PaymentTypeModel> getById(int id) async {
     try {
       final paymentResult = await _dio.auth().get(
-            '/payment_type/$id',
+            '/payment-types/$id',
           );
+
       return PaymentTypeModel.fromMap(paymentResult.data);
     } on DioError catch (e, s) {
-      log('Erro ao buscar forma de pagamento $id', error: e, stackTrace: s);
+      log('Erro ao buscar formas de pagamento $id', error: e, stackTrace: s);
       throw RepositoryExceptions(
-        message: 'Erro ao buscar forma de pagamento $id',
+        message: 'Erro ao buscar formas de pagamento $id',
       );
     }
   }
@@ -49,22 +50,21 @@ class PaymentTypeRepositoryImpl implements PaymentTypeRepository {
   Future<void> save(PaymentTypeModel model) async {
     try {
       final client = _dio.auth();
-
       if (model.id != null) {
-        await client.put(
-          '/payment_type/${model.id}',
+        client.put(
+          '/payment-types/${model.id}',
           data: model.toMap(),
         );
       } else {
         await client.post(
-          '/payment_type/',
+          '/payment-types/',
           data: model.toMap(),
         );
       }
     } on DioError catch (e, s) {
-      log('Erro ao salver forma de pagamento', error: e, stackTrace: s);
+      log('Erro ao salvar forma de pagamento ', error: e, stackTrace: s);
       throw RepositoryExceptions(
-        message: 'Erro ao salver forma de pagamento',
+        message: 'Erro ao salvar forma de pagamento',
       );
     }
   }
