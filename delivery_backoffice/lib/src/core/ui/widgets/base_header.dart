@@ -11,10 +11,10 @@ class BaseHeader extends StatelessWidget {
   const BaseHeader({
     Key? key,
     required this.title,
-    required this.seachChanged,
+    this.seachChanged,
     required this.buttonLabel,
     this.buttonPressed,
-    required this.addButton,
+    this.addButton = true,
     this.filterWidget,
   }) : super(key: key);
 
@@ -32,12 +32,13 @@ class BaseHeader extends StatelessWidget {
                 child: TextFormField(
                   onChanged: seachChanged,
                   decoration: InputDecoration(
-                      isDense: true,
-                      contentPadding: EdgeInsets.zero,
-                      prefixIcon: Icon(
-                        Icons.search,
-                        size: contrains.maxWidth * 0.03,
-                        ),),
+                    isDense: true,
+                    contentPadding: EdgeInsets.zero,
+                    prefixIcon: Icon(
+                      Icons.search,
+                      size: contrains.maxWidth * 0.03,
+                    ),
+                  ),
                 ),
               ),
             )

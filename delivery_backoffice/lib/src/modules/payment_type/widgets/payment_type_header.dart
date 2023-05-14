@@ -7,9 +7,10 @@ class PaymentTypeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const BaseHeader(
+    return BaseHeader(
       title: 'ADIMINSTRAR FORMAS DE PAGAMENTO',
-      addButton: null,
+      buttonLabel: 'Adicionar',
+      buttonPressed: () {},
     );
   }
 }
