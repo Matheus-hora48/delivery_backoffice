@@ -1,5 +1,6 @@
 import 'package:delivery_backoffice/src/modules/payment_type/widgets/payment_type_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
@@ -66,16 +67,21 @@ class _PaymentTypePageState extends State<PaymentTypePage>
             height: 50,
           ),
           Expanded(
-            child: GridView.builder(
-              itemCount: 10,
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                mainAxisExtent: 120,
-                mainAxisSpacing: 20,
-                crossAxisSpacing: 10,
-                maxCrossAxisExtent: 680,
-              ),
-              itemBuilder: (context, index) {
-                return const PaymentTypeItem();
+            child: Observer(
+              builder: (_) {
+                return GridView.builder(
+                  itemCount: controller.paymentTypes.length,
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    mainAxisExtent: 120,
+                    mainAxisSpacing: 20,
+                    crossAxisSpacing: 10,
+                    maxCrossAxisExtent: 680,
+                  ),
+                  itemBuilder: (context, index) {
+                    final paymentTypeModel = controller.paymentTypes[index];
+                    return const PaymentTypeItem();
+                  },
+                );
               },
             ),
           )

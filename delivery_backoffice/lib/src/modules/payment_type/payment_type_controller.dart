@@ -22,7 +22,7 @@ abstract class PaymentTypeControllerBase with Store {
   @readonly
   var _status = PaymentTypeStateStatus.initial;
 
-  var _paymentTypes = <PaymentTypeModel>[];
+  var paymentTypes = <PaymentTypeModel>[];
 
   @readonly
   String? _errorMessage;
@@ -33,7 +33,7 @@ abstract class PaymentTypeControllerBase with Store {
   Future<void> loadPayments() async {
     try {
       _status = PaymentTypeStateStatus.loading;
-      _paymentTypes = await _paymentTypeRepository.findAll(null);
+      paymentTypes = await _paymentTypeRepository.findAll(null);
       _status = PaymentTypeStateStatus.loaded;
     } catch (e, s) {
       log('Erro ao carregar as formas de pagamento', error: e, stackTrace: s);
