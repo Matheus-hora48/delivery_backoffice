@@ -4,6 +4,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../models/payment_type_model.dart';
 import '../../repositories/payment_type/payment_type_repository.dart';
+
 part 'payment_type_controller.g.dart';
 
 enum PaymentTypeStateStatus {
@@ -24,7 +25,8 @@ abstract class PaymentTypeControllerBase with Store {
   @readonly
   var _status = PaymentTypeStateStatus.initial;
 
-  var paymentTypes = <PaymentTypeModel>[];
+  @readonly
+  var _paymentTypes = <PaymentTypeModel>[];
 
   @readonly
   String? _errorMessage;
@@ -44,7 +46,7 @@ abstract class PaymentTypeControllerBase with Store {
   Future<void> loadPayments() async {
     try {
       _status = PaymentTypeStateStatus.loading;
-      paymentTypes = await _paymentTypeRepository.findAll(_filterEnabled);
+      _paymentTypes = await _paymentTypeRepository.findAll(_filterEnabled);
       _status = PaymentTypeStateStatus.loaded;
     } catch (e, s) {
       log('Erro ao carregar as formas de pagamento', error: e, stackTrace: s);
@@ -73,16 +75,12 @@ abstract class PaymentTypeControllerBase with Store {
   Future<void> savePayment({
     int? id,
     required String name,
-    required String acrony,
+    required String acronym,
     required bool enabled,
   }) async {
     _status = PaymentTypeStateStatus.loading;
     final paymentTypeModel = PaymentTypeModel(
-      id: id,
-      name: name,
-      acronym: acrony,
-      enabled: enabled,
-    );
+        id: id, name: name, acronym: acronym, enabled: enabled);
     await _paymentTypeRepository.save(paymentTypeModel);
     _status = PaymentTypeStateStatus.saved;
   }

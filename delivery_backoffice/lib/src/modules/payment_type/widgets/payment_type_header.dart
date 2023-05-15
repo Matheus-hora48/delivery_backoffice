@@ -5,7 +5,11 @@ import '../payment_type_controller.dart';
 
 class PaymentTypeHeader extends StatefulWidget {
   final PaymentTypeController controller;
-  const PaymentTypeHeader({super.key, required this.controller});
+
+  PaymentTypeHeader({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
 
   @override
   State<PaymentTypeHeader> createState() => _PaymentTypeHeaderState();
@@ -13,16 +17,23 @@ class PaymentTypeHeader extends StatefulWidget {
 
 class _PaymentTypeHeaderState extends State<PaymentTypeHeader> {
   bool? enabled;
+
   @override
   Widget build(BuildContext context) {
     return BaseHeader(
-      title: 'ADIMINSTRAR FORMAS DE PAGAMENTO',
-      buttonLabel: 'Adicionar',
+      title: 'ADMINISTRAR FORMAS DE PAGAMENTO',
+      buttonLabel: 'ADICIONAR',
       buttonPressed: () {
         widget.controller.addPayment();
       },
-      filterWidget: DropdownButton<bool?>(
+      filterWidget: DropdownButton(
         value: enabled,
+        onChanged: (value) {
+          setState(() {
+            enabled = value;
+            widget.controller.changeFilter(value);
+          });
+        },
         items: const [
           DropdownMenuItem(
             value: null,
@@ -37,12 +48,6 @@ class _PaymentTypeHeaderState extends State<PaymentTypeHeader> {
             child: Text('Inativos'),
           ),
         ],
-        onChanged: (value) {
-          setState(() {
-            enabled = value;
-            widget.controller.changeFilter(value);
-          });
-        },
       ),
     );
   }

@@ -20,52 +20,46 @@ class PaymentTypePage extends StatefulWidget {
 class _PaymentTypePageState extends State<PaymentTypePage>
     with Loader, Messages {
   final controller = Modular.get<PaymentTypeController>();
-
   final disposers = <ReactionDisposer>[];
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) {
-        final filterDisposer = reaction((_) => controller.filterEnabled, (_) {
-          controller.loadPayments();
-        });
-        final statusDisposer = reaction(
-          (_) => controller.status,
-          (status) {
-            switch (status) {
-              case PaymentTypeStateStatus.initial:
-                break;
-              case PaymentTypeStateStatus.loading:
-                showLoader();
-                break;
-              case PaymentTypeStateStatus.loaded:
-                hideLoader();
-                break;
-              case PaymentTypeStateStatus.error:
-                hideLoader();
-                showError(
-                  controller.errorMessage ??
-                      'Erro ao buscar formas de pagamento',
-                );
-                break;
-              case PaymentTypeStateStatus.addOrUpdatePayment:
-                hideLoader();
-                showAddOrUpdatePayment();
-                break;
-              case PaymentTypeStateStatus.saved:
-                hideLoader();
-                Navigator.of(context, rootNavigator: true).pop();
-                controller.loadPayments();
-                break;
-            }
-          },
-        );
-        disposers.addAll([statusDisposer, filterDisposer]);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final filterDiposer = reaction((_) => controller.filterEnabled, (_) {
         controller.loadPayments();
-      },
-    );
+      });
+
+      final statusDisposer = reaction((_) => controller.status, (status) {
+        switch (status) {
+          case PaymentTypeStateStatus.initial:
+            break;
+          case PaymentTypeStateStatus.loading:
+            showLoader();
+            break;
+          case PaymentTypeStateStatus.loaded:
+            hideLoader();
+            break;
+          case PaymentTypeStateStatus.error:
+            hideLoader();
+            showError(
+              controller.errorMessage ?? 'Erro ao buscar formas de pagamentos',
+            );
+            break;
+          case PaymentTypeStateStatus.addOrUpdatePayment:
+            hideLoader();
+            showAddOrUpdatePayment();
+            break;
+          case PaymentTypeStateStatus.saved:
+            hideLoader();
+            Navigator.of(context, rootNavigator: true).pop();
+            controller.loadPayments();
+            break;
+        }
+      });
+      disposers.addAll([statusDisposer, filterDiposer]);
+      controller.loadPayments();
+    });
   }
 
   @override
@@ -89,9 +83,7 @@ class _PaymentTypePageState extends State<PaymentTypePage>
             backgroundColor: Colors.white,
             elevation: 10,
             child: PaymentTypeFormModal(
-              model: controller.paymentTypeSelected,
-              controller: controller,
-            ),
+                model: controller.paymentTypeSelected, controller: controller),
           ),
         );
       },
@@ -102,12 +94,10 @@ class _PaymentTypePageState extends State<PaymentTypePage>
   Widget build(BuildContext context) {
     return Container(
       color: Colors.grey[50],
-      padding: const EdgeInsets.only(top: 40, bottom: 40, right: 40),
+      padding: const EdgeInsets.only(left: 40, top: 40, right: 40),
       child: Column(
         children: [
-          PaymentTypeHeader(
-            controller: controller,
-          ),
+          PaymentTypeHeader(controller: controller),
           const SizedBox(
             height: 50,
           ),
@@ -125,14 +115,14 @@ class _PaymentTypePageState extends State<PaymentTypePage>
                   itemBuilder: (context, index) {
                     final paymentTypeModel = controller.paymentTypes[index];
                     return PaymentTypeItem(
-                      payment: paymentTypeModel,
                       controller: controller,
+                      payment: paymentTypeModel,
                     );
                   },
                 );
               },
             ),
-          )
+          ),
         ],
       ),
     );

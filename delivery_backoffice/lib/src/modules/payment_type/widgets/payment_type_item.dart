@@ -6,21 +6,24 @@ import '../../../models/payment_type_model.dart';
 import '../payment_type_controller.dart';
 
 class PaymentTypeItem extends StatelessWidget {
-  final PaymentTypeModel payment;
   final PaymentTypeController controller;
+  final PaymentTypeModel payment;
 
   const PaymentTypeItem({
-    super.key,
-    required this.payment,
+    Key? key,
     required this.controller,
-  });
+    required this.payment,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final colorAll = !payment.enabled ? Colors.black : Colors.grey;
+    final colorAll = payment.enabled ? Colors.black : Colors.grey;
+
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
+        border: Border.all(
+          color: Colors.grey,
+        ),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Padding(
@@ -29,19 +32,16 @@ class PaymentTypeItem extends StatelessWidget {
           children: [
             Image.asset(
               'assets/images/icons/payment_${payment.acronym}_icon.png',
-              errorBuilder: (context, error, stackTrace) {
-                return Image.asset(
-                  'assets/images/icons/payment_notfound_icon.png',
-                  color: colorAll,
-                );
-              },
+              errorBuilder: (context, error, stackTrace) => Image.asset(
+                'assets/images/icons/payment_notFound_icon.png',
+                color: colorAll,
+              ),
               color: colorAll,
             ),
             const SizedBox(
               width: 20,
             ),
             Expanded(
-              flex: 2,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -49,10 +49,9 @@ class PaymentTypeItem extends StatelessWidget {
                 children: [
                   FittedBox(
                     child: Text(
-                      'Formas de pagemento',
-                      style: context.textStyles.textRegular.copyWith(
-                        color: colorAll,
-                      ),
+                      'Forma de pagamento',
+                      style: context.textStyles.textRegular
+                          .copyWith(color: colorAll),
                     ),
                   ),
                   const SizedBox(
@@ -61,9 +60,8 @@ class PaymentTypeItem extends StatelessWidget {
                   FittedBox(
                     child: Text(
                       payment.name,
-                      style: context.textStyles.textTitle.copyWith(
-                        color: colorAll,
-                      ),
+                      style: context.textStyles.textTitle
+                          .copyWith(color: colorAll),
                     ),
                   ),
                 ],
@@ -79,10 +77,9 @@ class PaymentTypeItem extends StatelessWidget {
                   child: Text(
                     'Editar',
                     style: context.textStyles.textMedium.copyWith(
-                      color: payment.enabled
-                          ? context.colors.primary
-                          : Colors.grey,
-                    ),
+                        color: payment.enabled
+                            ? context.colors.primary
+                            : Colors.grey),
                   ),
                 ),
               ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/ui/widgets/base_header.dart';
+
 class ProductsPage extends StatelessWidget {
   const ProductsPage({Key? key}) : super(key: key);
 
@@ -10,7 +12,11 @@ class ProductsPage extends StatelessWidget {
       padding: const EdgeInsets.only(top: 40, bottom: 40, right: 40),
       child: Column(
         children: [
-          
+          BaseHeader(
+            title: 'ADINISTRAR PRODUTOS',
+            buttonLabel: 'ADICIONAR PRODUTOS',
+            buttonPressed: (){},
+          ),
         ],
       ),
     );

@@ -27,6 +27,24 @@ mixin _$PaymentTypeController on PaymentTypeControllerBase, Store {
     });
   }
 
+  late final _$_paymentTypesAtom =
+      Atom(name: 'PaymentTypeControllerBase._paymentTypes', context: context);
+
+  List<PaymentTypeModel> get paymentTypes {
+    _$_paymentTypesAtom.reportRead();
+    return super._paymentTypes;
+  }
+
+  @override
+  List<PaymentTypeModel> get _paymentTypes => paymentTypes;
+
+  @override
+  set _paymentTypes(List<PaymentTypeModel> value) {
+    _$_paymentTypesAtom.reportWrite(value, super._paymentTypes, () {
+      super._paymentTypes = value;
+    });
+  }
+
   late final _$_errorMessageAtom =
       Atom(name: 'PaymentTypeControllerBase._errorMessage', context: context);
 
@@ -113,10 +131,10 @@ mixin _$PaymentTypeController on PaymentTypeControllerBase, Store {
   Future<void> savePayment(
       {int? id,
       required String name,
-      required String acrony,
+      required String acronym,
       required bool enabled}) {
     return _$savePaymentAsyncAction.run(() => super
-        .savePayment(id: id, name: name, acrony: acrony, enabled: enabled));
+        .savePayment(id: id, name: name, acronym: acronym, enabled: enabled));
   }
 
   late final _$PaymentTypeControllerBaseActionController =
