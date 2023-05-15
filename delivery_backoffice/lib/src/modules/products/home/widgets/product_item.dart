@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/env/env.dart';
+import '../../../../core/extensions/formatter_extensions.dart';
 import '../../../../core/ui/styles/text_style.dart';
 
 class ProductItem extends StatelessWidget {
@@ -39,6 +40,19 @@ class ProductItem extends StatelessWidget {
                   'X-tudo',
                   style: context.textStyles.textMedium,
                 ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Text(100.5.currencyPTBR),
+                  ),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text('Editar'),
+                  )
+                ],
               )
             ],
           );
