@@ -62,8 +62,9 @@ class _ProductsPageState extends State<ProductsPage> with Loader, Messages {
           BaseHeader(
             title: 'ADINISTRAR PRODUTOS',
             buttonLabel: 'ADICIONAR PRODUTOS',
-            buttonPressed: () {
-              Modular.to.pushNamed('/products/detail');
+            buttonPressed: () async {
+              await Modular.to.pushNamed('/products/detail');
+              controller.loadProducts();
             },
             searchChange: (value) {
               debouncer.call(() {
