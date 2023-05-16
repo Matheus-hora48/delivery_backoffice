@@ -26,7 +26,7 @@ class _PaymentTypeHeaderState extends State<PaymentTypeHeader> {
       buttonPressed: () {
         widget.controller.addPayment();
       },
-      filterWidget: DropdownButton(
+      filterWidget: DropdownButton<bool?>(
         value: enabled,
         onChanged: (value) {
           setState(() {

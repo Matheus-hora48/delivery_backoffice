@@ -62,11 +62,10 @@ class _ProductDetailPageState extends State<ProductDetailPage>
             showError('Erro ao carregar o produto para alteração');
             Navigator.of(context).pop();
             break;
-          case ProductDetailStateStatus.deleted:
-            break;
           case ProductDetailStateStatus.uploaded:
             hideLoader();
             break;
+          case ProductDetailStateStatus.deleted:
           case ProductDetailStateStatus.saved:
             hideLoader();
             Navigator.pop(context);
@@ -219,17 +218,56 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                         padding: const EdgeInsets.all(5),
                         width: widthButtonAction / 2,
                         height: 60,
-                        child: OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            side: const BorderSide(
-                              color: Colors.red,
+                        child: Visibility(
+                          visible: widget.productId != null,
+                          child: OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              side: const BorderSide(
+                                color: Colors.red,
+                              ),
                             ),
-                          ),
-                          onPressed: () {},
-                          child: Text(
-                            'Deletar',
-                            style: context.textStyles.textBold.copyWith(
-                              color: Colors.red,
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text('Confirmar'),
+                                    content: Text(
+                                      'Confirmar a exclusão do produto ${controller.productModel!.name}',
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(
+                                          'Cancelar',
+                                          style: context.textStyles.textBold
+                                              .copyWith(
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          controller.deleteProduct();
+                                        },
+                                        child: Text(
+                                          'Confirmar',
+                                          style: context.textStyles.textBold,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: Text(
+                              'Deletar',
+                              style: context.textStyles.textBold.copyWith(
+                                color: Colors.red,
+                              ),
                             ),
                           ),
                         ),

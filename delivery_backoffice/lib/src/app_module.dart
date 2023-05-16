@@ -3,6 +3,7 @@ import './modules/home/home_page.dart';
 import 'modules/base/base_loyout.dart';
 import 'modules/core/core_module.dart';
 import 'modules/login/login_module.dart';
+import 'modules/order/order_module.dart';
 import 'modules/payment_type/payment_type_module.dart';
 import 'modules/products/products_module.dart';
 
@@ -29,6 +30,10 @@ class AppModule extends Module {
             ModuleRoute(
               '/products',
               module: ProductsModule(),
+            ),
+            ModuleRoute(
+              '/order',
+              module: OrderModule(),
             ),
           ],
         ),
