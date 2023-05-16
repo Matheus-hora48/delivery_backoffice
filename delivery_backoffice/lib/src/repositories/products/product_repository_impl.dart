@@ -32,7 +32,7 @@ class ProductRepositoryImpl implements ProductRepository {
       final productResult = await _dio.auth().get(
         '/products',
         queryParameters: {
-          if (name != null) ' name': name,
+          if (name != null) 'name': name,
           'enabled': true,
         },
       );
