@@ -65,7 +65,7 @@ class _ProductsPageState extends State<ProductsPage> with Loader, Messages {
             buttonPressed: () {
               Modular.to.pushNamed('/products/detail');
             },
-            seachChanged: (value) {
+            searchChange: (value) {
               debouncer.call(() {
                 controller.filterByName(value);
               });

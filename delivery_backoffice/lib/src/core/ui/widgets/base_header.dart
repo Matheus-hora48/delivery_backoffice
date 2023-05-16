@@ -4,7 +4,7 @@ import '../styles/text_style.dart';
 
 class BaseHeader extends StatelessWidget {
   final String title;
-  final ValueChanged<String>? seachChanged;
+  final ValueChanged<String>? searchChange;
   final String buttonLabel;
   final VoidCallback? buttonPressed;
   final bool addButton;
@@ -13,8 +13,8 @@ class BaseHeader extends StatelessWidget {
   const BaseHeader({
     Key? key,
     required this.title,
-    this.seachChanged,
-    required this.buttonLabel,
+    this.searchChange,
+    this.buttonLabel = '',
     this.buttonPressed,
     this.addButton = true,
     this.filterWidget,
@@ -23,36 +23,34 @@ class BaseHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-      builder: (_, contrains) {
+      builder: (_, constrains) {
         return Wrap(
           children: [
             Visibility(
               visible: filterWidget == null,
               replacement: filterWidget ?? const SizedBox.shrink(),
               child: SizedBox(
-                width: contrains.maxWidth * .1,
+                width: constrains.maxWidth * .15,
                 child: TextFormField(
-                  onChanged: seachChanged,
+                  onChanged: searchChange,
                   decoration: InputDecoration(
                     isDense: true,
                     contentPadding: EdgeInsets.zero,
                     prefixIcon: Icon(
                       Icons.search,
-                      size: contrains.maxWidth * 0.02,
+                      size: constrains.maxWidth * .02,
                     ),
                     label: Text(
                       'Buscar',
-                      style: context.textStyles.textRegular.copyWith(
-                        fontSize: 12,
-                        color: Colors.grey,
-                      ),
+                      style: context.textStyles.textRegular
+                          .copyWith(color: Colors.grey),
                     ),
                   ),
                 ),
               ),
             ),
             Container(
-              width: contrains.maxWidth * .65,
+              width: constrains.maxWidth * .6,
               padding: const EdgeInsets.all(8),
               child: Text(
                 title,
@@ -64,21 +62,19 @@ class BaseHeader extends StatelessWidget {
               ),
             ),
             Visibility(
-              visible: addButton == true,
+              visible: addButton,
               child: SizedBox(
-                width: contrains.maxWidth * .15,
+                width: constrains.maxWidth * .15,
                 child: OutlinedButton.icon(
-                  onPressed: () {},
+                  onPressed: buttonPressed,
                   icon: Icon(
                     Icons.add,
-                    size: contrains.maxWidth * 0.02,
+                    size: constrains.maxWidth * .02,
                   ),
-                  label: Text(
-                    buttonLabel,
-                  ),
+                  label: Text(buttonLabel),
                 ),
               ),
-            ),
+            )
           ],
         );
       },
