@@ -4,10 +4,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+<<<<<<< Updated upstream
 import 'package:validatorless/validatorless.dart';
 
 import '../../../core/env/env.dart';
 import '../../../core/extensions/formatter_extensions.dart';
+=======
+
+import '../../../core/env/env.dart';
+>>>>>>> Stashed changes
 import '../../../core/ui/helpers/loader.dart';
 import '../../../core/ui/helpers/messages.dart';
 import '../../../core/ui/helpers/size_extensions.dart';
@@ -18,8 +23,10 @@ import 'product_detail_controller.dart';
 class ProductDetailPage extends StatefulWidget {
   final int? productId;
 
-  const ProductDetailPage({Key? key, required this.productId})
-      : super(key: key);
+  const ProductDetailPage({
+    Key? key,
+    this.productId,
+  }) : super(key: key);
 
   @override
   State<ProductDetailPage> createState() => _ProductDetailPageState();
@@ -51,7 +58,6 @@ class _ProductDetailPageState extends State<ProductDetailPage>
             priceEC.text = model.price.currencyPTBR;
             descriptionEC.text = model.description;
             hideLoader();
-
             break;
           case ProductDetailStateStatus.error:
             hideLoader();
@@ -87,6 +93,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
   @override
   Widget build(BuildContext context) {
     final widthButtonAction = context.percentWidth(.4);
+
     return Container(
       color: Colors.grey[50],
       padding: const EdgeInsets.all(40),
@@ -99,8 +106,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                 children: [
                   Expanded(
                     child: Text(
-                      '${widget.productId != null ? 'Alterar' : 'Adicionar'} ',
-                      textAlign: TextAlign.center,
+                      '${widget.productId != null ? 'Alterar' : 'Adicionar'} produto',
                       style: context.textStyles.textTitle.copyWith(
                         decoration: TextDecoration.underline,
                         decorationThickness: 2,
@@ -113,29 +119,49 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                     },
                     icon: const Icon(Icons.close),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Stack(
+                    alignment: Alignment.bottomCenter,
                     children: [
-                      Stack(
-                        alignment: Alignment.bottomCenter,
-                        children: [
-                          Observer(
+                      Observer(
+                        builder: (_) {
+                          if (controller.imagePath != null) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Image.network(
+                                '${Env.instance.get('backend_base_url')}${controller.imagePath}',
+                                width: 200,
+                              ),
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        },
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(10),
+                        child: TextButton(
+                          onPressed: () {
+                            UploadHtmlHelper().startUpload(
+                              controller.uploadImageProduct,
+                            );
+                          },
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.white.withOpacity(0.8),
+                          ),
+                          child: Observer(
                             builder: (_) {
-                              if (controller.imagePath != null) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Image.network(
-                                    '${Env.instance.get('backend_base_url')}${controller.imagePath}',
-                                    width: 200,
-                                  ),
-                                );
-                              } else {
-                                return const SizedBox.shrink();
-                              }
+                              return Text(
+                                '${controller.imagePath != null ? 'Alterar' : 'Adicionar'} Foto',
+                              );
                             },
                           ),
+<<<<<<< Updated upstream
                           Container(
                             margin: EdgeInsets.all(10),
                             child: TextButton(
@@ -184,16 +210,48 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                               ],
                             ),
                           ],
+=======
+>>>>>>> Stashed changes
                         ),
                       )
                     ],
-                  )
+                  ),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: nameEC,
+                          validator: Validatorless.required('Nome obrigatório'),
+                          decoration: const InputDecoration(
+                            label: Text('Nome'),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          controller: priceEC,
+                          validator:
+                              Validatorless.required('Preço obrigatório'),
+                          decoration: const InputDecoration(
+                            label: Text('Preço'),
+                          ),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            CentavosInputFormatter(moeda: true)
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(
                 height: 20,
               ),
               TextFormField(
+                controller: descriptionEC,
+                validator: Validatorless.required('Descrição obrigatório'),
                 maxLines: null,
                 minLines: 10,
                 validator: Validatorless.required('Descrição obrigatória'),
@@ -222,8 +280,14 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                           visible: widget.productId != null,
                           child: OutlinedButton(
                             style: OutlinedButton.styleFrom(
+<<<<<<< Updated upstream
                               side: const BorderSide(
                                 color: Colors.red,
+=======
+                              foregroundColor: Colors.redAccent,
+                              side: const BorderSide(
+                                color: Colors.redAccent,
+>>>>>>> Stashed changes
                               ),
                             ),
                             onPressed: () {
@@ -231,20 +295,36 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
+<<<<<<< Updated upstream
                                     title: Text('Confirmar'),
                                     content: Text(
                                       'Confirmar a exclusão do produto ${controller.productModel!.name}',
+=======
+                                    title: const Text('Confirmar'),
+                                    content: Text(
+                                      'Confirma a exclusão do produto ${controller.productModel!.name}',
+>>>>>>> Stashed changes
                                     ),
                                     actions: [
                                       TextButton(
                                         onPressed: () {
                                           Navigator.pop(context);
                                         },
+<<<<<<< Updated upstream
+=======
+                                        style: TextButton.styleFrom(
+                                          foregroundColor: Colors.redAccent,
+                                        ),
+>>>>>>> Stashed changes
                                         child: Text(
                                           'Cancelar',
                                           style: context.textStyles.textBold
                                               .copyWith(
+<<<<<<< Updated upstream
                                             color: Colors.red,
+=======
+                                            color: Colors.redAccent,
+>>>>>>> Stashed changes
                                           ),
                                         ),
                                       ),
@@ -266,7 +346,11 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                             child: Text(
                               'Deletar',
                               style: context.textStyles.textBold.copyWith(
+<<<<<<< Updated upstream
                                 color: Colors.red,
+=======
+                                color: Colors.redAccent,
+>>>>>>> Stashed changes
                               ),
                             ),
                           ),
@@ -283,7 +367,12 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                             if (valid) {
                               if (controller.imagePath == null) {
                                 showWarning(
+<<<<<<< Updated upstream
                                     'Imagem obrigatória, por favor clique em adicioanr foto');
+=======
+                                  'Imagem obrigatória, por favor clique em adicionar foto',
+                                );
+>>>>>>> Stashed changes
                                 return;
                               }
                               controller.save(

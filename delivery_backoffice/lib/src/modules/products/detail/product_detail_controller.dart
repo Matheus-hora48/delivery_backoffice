@@ -13,7 +13,7 @@ enum ProductDetailStateStatus {
   loading,
   loaded,
   error,
-  errorLoading,
+  errorLoadProduct,
   deleted,
   uploaded,
   saved,
@@ -79,7 +79,7 @@ abstract class ProductDetailControllerBase with Store {
       _status = ProductDetailStateStatus.loaded;
     } catch (e, s) {
       log('Erro ao carregar produto', error: e, stackTrace: s);
-      _status = ProductDetailStateStatus.errorLoading;
+      _status = ProductDetailStateStatus.errorLoadProduct;
     }
   }
 
