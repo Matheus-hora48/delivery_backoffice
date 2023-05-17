@@ -303,7 +303,6 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                                     title: const Text('Confirmar'),
                                     content: Text(
                                       'Confirma a exclusão do produto ${controller.productModel!.name}',
->>>>>>> Stashed changes
                                     ),
                                     actions: [
                                       TextButton(
