@@ -47,7 +47,7 @@ class OrderRepositoryImpl implements OrderRepository {
           if (status != null) 'status': status.acronym
         },
       );
-      return orderResponse.data.map((o) => OrderModel.fromMap(o)).toList();
+      return orderResponse.data.map<OrderModel>((o) => OrderModel.fromMap(o)).toList();
     } on DioError catch (e, s) {
       log(
         'Erro ao buscar pedido',

@@ -1,60 +1,74 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../core/ui/styles/text_style.dart';
+import '../../models/orders/order_model.dart';
+import 'order_controller.dart';
 
 class OrderItem extends StatelessWidget {
-  const OrderItem({Key? key}) : super(key: key);
+  final OrderModel order;
+
+  const OrderItem({
+    Key? key,
+    required this.order,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final textStyles = context.textStyles;
-    return Row(
-      children: [
-        Expanded(
-          child: Container(
-            margin: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: Colors.grey,
+    return InkWell(
+      onTap: (){
+        context.read<OrderController>().showDetailModal(order);
+      },
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: Colors.grey,
+                ),
               ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                children: [
-                  Text(
-                    'Pedido',
-                    style: textStyles.textBold,
-                  ),
-                  Text(
-                    '1',
-                    style: textStyles.textExtraBold,
-                  ),
-                  Expanded(
-                    child: Text(
-                      'Cancelado',
-                      textAlign: TextAlign.end,
-                      style: textStyles.textExtraBold.copyWith(
-                        fontSize: 20,
-                        color: Colors.red,
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    Text(
+                      'Pedido',
+                      style: textStyles.textBold,
+                    ),
+                    Text(
+                      order.id.toString(),
+                      style: textStyles.textExtraBold,
+                    ),
+                    Expanded(
+                      child: Text(
+                        order.status.toString(),
+                        textAlign: TextAlign.end,
+                        style: textStyles.textExtraBold.copyWith(
+                          fontSize: 20,
+                          color: order.status.color,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                    height: double.infinity,
-                  ),
-                ],
+                    const SizedBox(
+                      width: 5,
+                      height: double.infinity,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-        VerticalDivider(
-          thickness: 1,
-          color: Colors.grey,
-        )
-      ],
+          VerticalDivider(
+            thickness: 1,
+            color: Colors.grey,
+          )
+        ],
+      ),
     );
   }
 }
