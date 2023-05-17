@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/ui/widgets/base_header.dart';
-import '../../../models/orders/order_model.dart';
+import '../../../models/orders/order_status.dart';
 
 class OrderHeader extends StatefulWidget {
   const OrderHeader({Key? key}) : super(key: key);
