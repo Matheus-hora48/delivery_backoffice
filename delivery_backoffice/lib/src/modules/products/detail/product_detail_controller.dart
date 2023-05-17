@@ -60,13 +60,15 @@ abstract class ProductDetailControllerBase with Store {
       );
 
       await _productRepository.save(productModel);
+      _status = ProductDetailStateStatus.saved;
     } catch (e, s) {
-      log('Erro ao salvar o produto', error: e, stackTrace: s);
+      log('Erro ao salver o produto', error: e, stackTrace: s);
       _status = ProductDetailStateStatus.error;
-      _errorMessage = 'Erro ao salvar o produto';
+      _errorMessage = 'Erro ao salver o produto';
     }
   }
 
+  @action
   Future<void> loadProduct(int? id) async {
     try {
       _status = ProductDetailStateStatus.loading;
@@ -78,17 +80,19 @@ abstract class ProductDetailControllerBase with Store {
       }
       _status = ProductDetailStateStatus.loaded;
     } catch (e, s) {
-      log('Erro ao carregar produto', error: e, stackTrace: s);
+      log('Erro ao carregar produto id - $id', error: e, stackTrace: s);
       _status = ProductDetailStateStatus.errorLoadProduct;
     }
   }
 
+  @action
   Future<void> deleteProduct() async {
     try {
       _status = ProductDetailStateStatus.loading;
       if (_productModel != null && _productModel!.id != null) {
         await _productRepository.deleteProduct(_productModel!.id!);
         _status = ProductDetailStateStatus.deleted;
+        return;
       }
       await Future.delayed(Duration.zero);
       _status = ProductDetailStateStatus.error;

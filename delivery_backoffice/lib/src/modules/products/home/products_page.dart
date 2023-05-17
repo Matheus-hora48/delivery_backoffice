@@ -20,7 +20,8 @@ class ProductsPage extends StatefulWidget {
 class _ProductsPageState extends State<ProductsPage> with Loader, Messages {
   final controller = Modular.get<ProductsController>();
   late final ReactionDisposer statusDisposer;
-  final debouncer = Debouncer(milliseconds: 500);
+
+  final debouncer = Debouncer(milliseconds: 600);
 
   @override
   void initState() {
@@ -39,14 +40,15 @@ class _ProductsPageState extends State<ProductsPage> with Loader, Messages {
             hideLoader();
             showError('Erro ao buscar produtos');
             break;
-          case ProductStateStatus.addOrUpdateProduct:
+          case ProductStateStatus.addOrUpdateProdutct:
             hideLoader();
             final productSelected = controller.productSelected;
             var uri = '/products/detail';
 
             if (productSelected != null) {
-              uri += '?id${productSelected.id}';
+              uri += '?id=${productSelected.id}';
             }
+
             await Modular.to.pushNamed(uri);
             controller.loadProducts();
             break;
@@ -67,12 +69,12 @@ class _ProductsPageState extends State<ProductsPage> with Loader, Messages {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.grey[50],
-      padding: const EdgeInsets.only(top: 40, bottom: 40, right: 40),
+      padding: const EdgeInsets.only(left: 40, top: 40, right: 40),
       child: Column(
         children: [
           BaseHeader(
-            title: 'ADINISTRAR PRODUTOS',
-            buttonLabel: 'ADICIONAR PRODUTOS',
+            title: 'ADMINISTRAR PRODUTO',
+            buttonLabel: 'ADICIONAR PRODUTO',
             buttonPressed: controller.addProduct,
             searchChange: (value) {
               debouncer.call(() {
@@ -83,24 +85,23 @@ class _ProductsPageState extends State<ProductsPage> with Loader, Messages {
           const SizedBox(
             height: 50,
           ),
-          Expanded(
-            child: Observer(
-              builder: (_) {
-                return GridView.builder(
-                  itemCount: controller.products.length,
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+          Expanded(child: Observer(
+            builder: (_) {
+              return GridView.builder(
+                itemCount: controller.products.length,
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                     mainAxisExtent: 280,
                     mainAxisSpacing: 20,
                     maxCrossAxisExtent: 280,
-                    crossAxisSpacing: 10,
-                  ),
-                  itemBuilder: (context, index) {
-                    return ProductItem(product: controller.products[index]);
-                  },
-                );
-              },
-            ),
-          )
+                    crossAxisSpacing: 10),
+                itemBuilder: (context, index) {
+                  return ProductItem(
+                    product: controller.products[index],
+                  );
+                },
+              );
+            },
+          )),
         ],
       ),
     );

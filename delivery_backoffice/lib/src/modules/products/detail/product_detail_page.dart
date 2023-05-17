@@ -4,15 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
-<<<<<<< Updated upstream
 import 'package:validatorless/validatorless.dart';
 
 import '../../../core/env/env.dart';
 import '../../../core/extensions/formatter_extensions.dart';
-=======
-
-import '../../../core/env/env.dart';
->>>>>>> Stashed changes
 import '../../../core/ui/helpers/loader.dart';
 import '../../../core/ui/helpers/messages.dart';
 import '../../../core/ui/helpers/size_extensions.dart';
@@ -35,7 +30,6 @@ class ProductDetailPage extends StatefulWidget {
 class _ProductDetailPageState extends State<ProductDetailPage>
     with Loader, Messages {
   final controller = Modular.get<ProductDetailController>();
-  late final ReactionDisposer statusDisposer;
   final formKey = GlobalKey<FormState>();
   final nameEC = TextEditingController();
   final priceEC = TextEditingController();
@@ -43,7 +37,6 @@ class _ProductDetailPageState extends State<ProductDetailPage>
 
   @override
   void initState() {
-    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       reaction((_) => controller.status, (status) {
         switch (status) {
@@ -63,10 +56,10 @@ class _ProductDetailPageState extends State<ProductDetailPage>
             hideLoader();
             showError(controller.errorMessage!);
             break;
-          case ProductDetailStateStatus.errorLoading:
+          case ProductDetailStateStatus.errorLoadProduct:
             hideLoader();
             showError('Erro ao carregar o produto para alteração');
-            Navigator.of(context).pop();
+            Navigator.pop(context);
             break;
           case ProductDetailStateStatus.uploaded:
             hideLoader();
@@ -80,6 +73,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
       });
       controller.loadProduct(widget.productId);
     });
+    super.initState();
   }
 
   @override
@@ -161,57 +155,6 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                               );
                             },
                           ),
-<<<<<<< Updated upstream
-                          Container(
-                            margin: EdgeInsets.all(10),
-                            child: TextButton(
-                              onPressed: () {
-                                UploadHtmlHelper.startUpload(
-                                    controller.uploadImageProduct());
-                              },
-                              style: TextButton.styleFrom(
-                                backgroundColor: Colors.white.withOpacity(0.9),
-                              ),
-                              child: Observer(
-                                builder: (_) {
-                                  return Text(
-                                    '${controller.imagePath == null ? 'Adicionar' : 'Alterar'} foto',
-                                  );
-                                },
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              controller: nameEC,
-                              validator:
-                                  Validatorless.required('Nome obrigatório'),
-                              decoration: const InputDecoration(
-                                label: Text('Nome'),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            TextFormField(
-                              controller: priceEC,
-                              validator:
-                                  Validatorless.required('Preço obrigatório'),
-                              decoration: const InputDecoration(
-                                label: Text('Preço'),
-                              ),
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                                CentavosInputFormatter(moeda: true),
-                              ],
-                            ),
-                          ],
-=======
->>>>>>> Stashed changes
                         ),
                       )
                     ],
@@ -254,8 +197,6 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                 validator: Validatorless.required('Descrição obrigatório'),
                 maxLines: null,
                 minLines: 10,
-                validator: Validatorless.required('Descrição obrigatória'),
-                controller: descriptionEC,
                 keyboardType: TextInputType.multiline,
                 decoration: const InputDecoration(
                   label: Text('Descrição'),
@@ -280,14 +221,9 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                           visible: widget.productId != null,
                           child: OutlinedButton(
                             style: OutlinedButton.styleFrom(
-<<<<<<< Updated upstream
-                              side: const BorderSide(
-                                color: Colors.red,
-=======
                               foregroundColor: Colors.redAccent,
                               side: const BorderSide(
                                 color: Colors.redAccent,
->>>>>>> Stashed changes
                               ),
                             ),
                             onPressed: () {
@@ -295,11 +231,6 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                                 context: context,
                                 builder: (context) {
                                   return AlertDialog(
-<<<<<<< Updated upstream
-                                    title: Text('Confirmar'),
-                                    content: Text(
-                                      'Confirmar a exclusão do produto ${controller.productModel!.name}',
-=======
                                     title: const Text('Confirmar'),
                                     content: Text(
                                       'Confirma a exclusão do produto ${controller.productModel!.name}',
@@ -309,21 +240,14 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                                         onPressed: () {
                                           Navigator.pop(context);
                                         },
-<<<<<<< Updated upstream
-=======
                                         style: TextButton.styleFrom(
                                           foregroundColor: Colors.redAccent,
                                         ),
->>>>>>> Stashed changes
                                         child: Text(
                                           'Cancelar',
                                           style: context.textStyles.textBold
                                               .copyWith(
-<<<<<<< Updated upstream
-                                            color: Colors.red,
-=======
                                             color: Colors.redAccent,
->>>>>>> Stashed changes
                                           ),
                                         ),
                                       ),
@@ -345,11 +269,7 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                             child: Text(
                               'Deletar',
                               style: context.textStyles.textBold.copyWith(
-<<<<<<< Updated upstream
-                                color: Colors.red,
-=======
                                 color: Colors.redAccent,
->>>>>>> Stashed changes
                               ),
                             ),
                           ),
@@ -366,12 +286,8 @@ class _ProductDetailPageState extends State<ProductDetailPage>
                             if (valid) {
                               if (controller.imagePath == null) {
                                 showWarning(
-<<<<<<< Updated upstream
-                                    'Imagem obrigatória, por favor clique em adicioanr foto');
-=======
                                   'Imagem obrigatória, por favor clique em adicionar foto',
                                 );
->>>>>>> Stashed changes
                                 return;
                               }
                               controller.save(

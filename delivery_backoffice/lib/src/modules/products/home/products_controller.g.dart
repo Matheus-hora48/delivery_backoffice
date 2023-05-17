@@ -89,6 +89,14 @@ mixin _$ProductsController on ProductsControllerBase, Store {
     return _$filterByNameAsyncAction.run(() => super.filterByName(name));
   }
 
+  late final _$loadProductsAsyncAction =
+      AsyncAction('ProductsControllerBase.loadProducts', context: context);
+
+  @override
+  Future<void> loadProducts() {
+    return _$loadProductsAsyncAction.run(() => super.loadProducts());
+  }
+
   late final _$addProductAsyncAction =
       AsyncAction('ProductsControllerBase.addProduct', context: context);
 
