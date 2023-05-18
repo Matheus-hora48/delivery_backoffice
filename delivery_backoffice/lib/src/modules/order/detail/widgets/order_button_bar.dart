@@ -49,12 +49,13 @@ class OrderBottomBarButton extends StatelessWidget {
   final String image;
   final String buttonLabel;
 
-  const OrderBottomBarButton(
-      {super.key,
-      required this.borderRadius,
-      required this.buttonColor,
-      required this.image,
-      required this.buttonLabel});
+  const OrderBottomBarButton({
+    super.key,
+    required this.borderRadius,
+    required this.buttonColor,
+    required this.image,
+    required this.buttonLabel,
+  });
 
   @override
   Widget build(BuildContext context) {
