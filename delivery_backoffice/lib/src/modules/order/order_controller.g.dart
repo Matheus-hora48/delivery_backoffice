@@ -27,24 +27,6 @@ mixin _$OrderController on OrderControllerBase, Store {
     });
   }
 
-  late final _$_todayAtom =
-      Atom(name: 'OrderControllerBase._today', context: context);
-
-  DateTime get today {
-    _$_todayAtom.reportRead();
-    return super._today;
-  }
-
-  @override
-  DateTime get _today => today;
-
-  @override
-  set _today(DateTime value) {
-    _$_todayAtom.reportWrite(value, super._today, () {
-      super._today = value;
-    });
-  }
-
   late final _$_statusFilterAtom =
       Atom(name: 'OrderControllerBase._statusFilter', context: context);
 
@@ -99,12 +81,60 @@ mixin _$OrderController on OrderControllerBase, Store {
     });
   }
 
+  late final _$_orderSelectedAtom =
+      Atom(name: 'OrderControllerBase._orderSelected', context: context);
+
+  OrderDto? get orderSelected {
+    _$_orderSelectedAtom.reportRead();
+    return super._orderSelected;
+  }
+
+  @override
+  OrderDto? get _orderSelected => orderSelected;
+
+  @override
+  set _orderSelected(OrderDto? value) {
+    _$_orderSelectedAtom.reportWrite(value, super._orderSelected, () {
+      super._orderSelected = value;
+    });
+  }
+
+  late final _$findOrdersAsyncAction =
+      AsyncAction('OrderControllerBase.findOrders', context: context);
+
+  @override
+  Future<void> findOrders() {
+    return _$findOrdersAsyncAction.run(() => super.findOrders());
+  }
+
   late final _$showDetailModalAsyncAction =
       AsyncAction('OrderControllerBase.showDetailModal', context: context);
 
   @override
   Future<void> showDetailModal(OrderModel model) {
     return _$showDetailModalAsyncAction.run(() => super.showDetailModal(model));
+  }
+
+  late final _$changeStatusAsyncAction =
+      AsyncAction('OrderControllerBase.changeStatus', context: context);
+
+  @override
+  Future<void> changeStatus(OrderStatus status) {
+    return _$changeStatusAsyncAction.run(() => super.changeStatus(status));
+  }
+
+  late final _$OrderControllerBaseActionController =
+      ActionController(name: 'OrderControllerBase', context: context);
+
+  @override
+  void changeStatusFilter(OrderStatus? status) {
+    final _$actionInfo = _$OrderControllerBaseActionController.startAction(
+        name: 'OrderControllerBase.changeStatusFilter');
+    try {
+      return super.changeStatusFilter(status);
+    } finally {
+      _$OrderControllerBaseActionController.endAction(_$actionInfo);
+    }
   }
 
   @override

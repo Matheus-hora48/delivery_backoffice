@@ -32,7 +32,7 @@ class AppModule extends Module {
               module: ProductsModule(),
             ),
             ModuleRoute(
-              '/order',
+              '/orders',
               module: OrderModule(),
             ),
           ],

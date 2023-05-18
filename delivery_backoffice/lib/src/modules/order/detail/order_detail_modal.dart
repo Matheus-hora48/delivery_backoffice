@@ -1,13 +1,20 @@
 import 'package:delivery_backoffice/src/modules/order/detail/widgets/order_product_item.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/extensions/formatter_extensions.dart';
 import '../../../core/ui/helpers/size_extensions.dart';
 import '../../../core/ui/styles/text_style.dart';
+import '../../../dto/order/order_dto.dart';
+import '../order_controller.dart';
 import 'widgets/order_button_bar.dart';
 import 'widgets/order_info_tile.dart';
 
 class OrderDetailModal extends StatefulWidget {
-  const OrderDetailModal({Key? key}) : super(key: key);
+  final OrderController controller;
+  final OrderDto order;
+  const OrderDetailModal(
+      {Key? key, required this.controller, required this.order})
+      : super(key: key);
 
   @override
   State<OrderDetailModal> createState() => _OrderDetailModalState();
@@ -67,15 +74,15 @@ class _OrderDetailModalState extends State<OrderDetailModal> {
                       width: 20,
                     ),
                     Text(
-                      'Matheus Hora',
+                      widget.order.user.name,
                       style: context.textStyles.textRegular,
                     )
                   ],
                 ),
                 const Divider(),
-                ...List.generate(3, (index) => index)
+                ...widget.order.orderProduct
                     .map(
-                      (e) => const OrderProductItem(),
+                      (op) => OrderProductItem(orderProduct: op),
                     )
                     .toList(),
                 const SizedBox(
@@ -93,7 +100,13 @@ class _OrderDetailModalState extends State<OrderDetailModal> {
                         ),
                       ),
                       Text(
-                        '200',
+                        widget.order.orderProduct
+                            .fold<double>(
+                              0.0,
+                              (previousValue, p) =>
+                                  previousValue + p.totalPrice,
+                            )
+                            .currencyPTBR,
                         style: context.textStyles.textExtraBold.copyWith(
                           fontSize: 18,
                         ),
@@ -102,11 +115,17 @@ class _OrderDetailModalState extends State<OrderDetailModal> {
                   ),
                 ),
                 const Divider(),
-                const OrderInfoTile(label: 'Endereço de entrega', info: 'Av Paulista, 200',),
+                OrderInfoTile(
+                  label: 'Endereço de entrega',
+                  info: widget.order.address,
+                ),
                 const Divider(),
-                const OrderInfoTile(label: 'Forma de pagameto', info: 'Cartão de credito',),
+                OrderInfoTile(
+                  label: 'Forma de pagameto',
+                  info: widget.order.paymentTypeModel.name,
+                ),
                 const SizedBox(
-                   height: 10,
+                  height: 10,
                 ),
                 const OrderButtonBar(),
               ],
