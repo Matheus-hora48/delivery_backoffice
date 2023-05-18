@@ -36,22 +36,18 @@ abstract class OrderControllerBase with Store {
   var _orders = <OrderModel>[];
 
   @readonly
-  String? _errorMessage;
+  OrderDto? _orderSelected;
 
   @readonly
-  OrderDto? _orderSelected;
+  String? _errorMessage;
 
   OrderControllerBase(this._orderRepository, this._getOrderById) {
     final todayNow = DateTime.now();
-    _today = DateTime(
-      todayNow.year,
-      todayNow.month,
-      todayNow.day,
-    );
+    _today = DateTime(todayNow.year, todayNow.month, todayNow.day);
   }
 
   @action
-  void changeStatusFilter(OrderStatus? status) {
+  void chageStatusFilter(OrderStatus? status) {
     _statusFilter = status;
     findOrders();
   }
@@ -74,10 +70,6 @@ abstract class OrderControllerBase with Store {
     _status = OrderStateStatus.loading;
     _orderSelected = await _getOrderById(model);
     _status = OrderStateStatus.showDetailModal;
-
-    // log('Erro ao buscar pedidos do dia', error: e, stackTrace: s);
-    // _errorMessage = 'Erro ao buscar pedidos do dia';
-    // _status = OrderStateStatus.error;
   }
 
   @action

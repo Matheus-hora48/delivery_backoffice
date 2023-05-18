@@ -63,24 +63,6 @@ mixin _$OrderController on OrderControllerBase, Store {
     });
   }
 
-  late final _$_errorMessageAtom =
-      Atom(name: 'OrderControllerBase._errorMessage', context: context);
-
-  String? get errorMessage {
-    _$_errorMessageAtom.reportRead();
-    return super._errorMessage;
-  }
-
-  @override
-  String? get _errorMessage => errorMessage;
-
-  @override
-  set _errorMessage(String? value) {
-    _$_errorMessageAtom.reportWrite(value, super._errorMessage, () {
-      super._errorMessage = value;
-    });
-  }
-
   late final _$_orderSelectedAtom =
       Atom(name: 'OrderControllerBase._orderSelected', context: context);
 
@@ -96,6 +78,24 @@ mixin _$OrderController on OrderControllerBase, Store {
   set _orderSelected(OrderDto? value) {
     _$_orderSelectedAtom.reportWrite(value, super._orderSelected, () {
       super._orderSelected = value;
+    });
+  }
+
+  late final _$_errorMessageAtom =
+      Atom(name: 'OrderControllerBase._errorMessage', context: context);
+
+  String? get errorMessage {
+    _$_errorMessageAtom.reportRead();
+    return super._errorMessage;
+  }
+
+  @override
+  String? get _errorMessage => errorMessage;
+
+  @override
+  set _errorMessage(String? value) {
+    _$_errorMessageAtom.reportWrite(value, super._errorMessage, () {
+      super._errorMessage = value;
     });
   }
 
@@ -127,11 +127,11 @@ mixin _$OrderController on OrderControllerBase, Store {
       ActionController(name: 'OrderControllerBase', context: context);
 
   @override
-  void changeStatusFilter(OrderStatus? status) {
+  void chageStatusFilter(OrderStatus? status) {
     final _$actionInfo = _$OrderControllerBaseActionController.startAction(
-        name: 'OrderControllerBase.changeStatusFilter');
+        name: 'OrderControllerBase.chageStatusFilter');
     try {
-      return super.changeStatusFilter(status);
+      return super.chageStatusFilter(status);
     } finally {
       _$OrderControllerBaseActionController.endAction(_$actionInfo);
     }

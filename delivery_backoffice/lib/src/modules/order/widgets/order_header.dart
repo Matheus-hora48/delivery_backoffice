@@ -24,7 +24,7 @@ class _OrderHeaderState extends State<OrderHeader> {
         value: statusSelected,
         onChanged: (value) {
           setState(() {
-            widget.controller.changeStatusFilter(value);
+            widget.controller.chageStatusFilter(value);
             statusSelected = value;
           });
         },
