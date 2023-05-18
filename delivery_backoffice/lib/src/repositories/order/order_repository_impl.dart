@@ -17,7 +17,7 @@ class OrderRepositoryImpl implements OrderRepository {
   Future<void> changeStatus(int id, OrderStatus status) async {
     try {
       await _dio.auth().put(
-        '/orders/$id',
+        '/orders/$id/',
         data: {
           'status': status.acronym,
         },
@@ -47,15 +47,17 @@ class OrderRepositoryImpl implements OrderRepository {
           if (status != null) 'status': status.acronym
         },
       );
-      return orderResponse.data.map<OrderModel>((o) => OrderModel.fromMap(o)).toList();
+      return orderResponse.data
+          .map<OrderModel>((o) => OrderModel.fromMap(o))
+          .toList();
     } on DioError catch (e, s) {
       log(
-        'Erro ao buscar pedido',
+        'Erro ao buscar pedidos',
         error: e,
         stackTrace: s,
       );
       throw RepositoryExceptions(
-        message: 'Erro ao buscar pedido',
+        message: 'Erro ao buscar pedidos',
       );
     }
   }
@@ -69,12 +71,12 @@ class OrderRepositoryImpl implements OrderRepository {
       return OrderModel.fromMap(orderResponse.data);
     } on DioError catch (e, s) {
       log(
-        'Erro ao buscar pedido',
+        'Erro ao buscar pedido $id',
         error: e,
         stackTrace: s,
       );
       throw RepositoryExceptions(
-        message: 'Erro ao buscar pedido',
+        message: 'Erro ao buscar pedido $id',
       );
     }
   }

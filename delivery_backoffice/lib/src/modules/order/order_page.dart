@@ -80,7 +80,9 @@ class _OrderPageState extends State<OrderPage> with Loader, Messages {
           padding: const EdgeInsets.only(top: 40),
           child: Column(
             children: [
-              const OrderHeader(),
+              OrderHeader(
+                controller: controller,
+              ),
               const SizedBox(
                 height: 50,
               ),
