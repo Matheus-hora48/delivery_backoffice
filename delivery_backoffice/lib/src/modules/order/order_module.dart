@@ -4,7 +4,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import '../../repositories/order/order_repository.dart';
 import '../../repositories/order/order_repository_impl.dart';
 import '../../services/order/get_order_by_id.dart';
-import '../../services/order/get_order_byd.dart';
+import '../../services/order/get_order_by_id_impl.dart';
 import 'order_controller.dart';
 
 class OrderModule extends Module {
