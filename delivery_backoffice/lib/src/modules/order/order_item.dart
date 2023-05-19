@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -8,17 +7,13 @@ import 'order_controller.dart';
 
 class OrderItem extends StatelessWidget {
   final OrderModel order;
-
-  const OrderItem({
-    Key? key,
-    required this.order,
-  }) : super(key: key);
+  const OrderItem({super.key, required this.order});
 
   @override
   Widget build(BuildContext context) {
     final textStyles = context.textStyles;
     return InkWell(
-      onTap: (){
+      onTap: () {
         context.read<OrderController>().showDetailModal(order);
       },
       child: Row(
@@ -28,30 +23,26 @@ class OrderItem extends StatelessWidget {
               margin: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: Colors.grey,
-                ),
+                border: Border.all(color: Colors.grey.shade300, width: 2),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Row(
                   children: [
                     Text(
-                      'Pedido',
-                      style: textStyles.textBold,
+                      'Pedido: ',
+                      style: textStyles.textMedium,
                     ),
                     Text(
-                      order.id.toString(),
-                      style: textStyles.textExtraBold,
+                      '${order.id}',
+                      style: textStyles.textExtraBold.copyWith(fontSize: 16),
                     ),
                     Expanded(
                       child: Text(
-                        order.status.toString(),
+                        order.status.name,
                         textAlign: TextAlign.end,
-                        style: textStyles.textExtraBold.copyWith(
-                          fontSize: 20,
-                          color: order.status.color,
-                        ),
+                        style: textStyles.textExtraBold
+                            .copyWith(fontSize: 20, color: order.status.color),
                       ),
                     ),
                     const SizedBox(
@@ -63,7 +54,7 @@ class OrderItem extends StatelessWidget {
               ),
             ),
           ),
-          VerticalDivider(
+          const VerticalDivider(
             thickness: 1,
             color: Colors.grey,
           )

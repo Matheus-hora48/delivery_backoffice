@@ -12,51 +12,48 @@ import './get_order_by_id.dart';
 class GetOrderByIdImpl implements GetOrderById {
   final PaymentTypeRepository _paymentTypeRepository;
   final UserRepository _userRepository;
-  final ProductRepository _productRepository;
+  final ProductRepository _productsRepository;
 
   GetOrderByIdImpl(
     this._paymentTypeRepository,
     this._userRepository,
-    this._productRepository,
+    this._productsRepository,
   );
 
   @override
   Future<OrderDto> call(OrderModel order) => _orderDtoParse(order);
 
   Future<OrderDto> _orderDtoParse(OrderModel order) async {
-    final paymentTypeFuture = _paymentTypeRepository.getById(
-      order.paymentTypeId,
-    );
-    final userFuture = _userRepository.getBuyId(
-      order.userId,
-    );
-    final orderProductFuture = _orderProductParse(order);
+    final paymentTypeFuture =
+        _paymentTypeRepository.getById(order.paymentTypeId);
+    final userFuture = _userRepository.getById(order.userId);
+    final orderProductsFuture = _orderProductParse(order);
 
-    final response = await Future.wait(
-      [
-        paymentTypeFuture,
-        userFuture,
-        orderProductFuture,
-      ],
-    );
+    final responses = await Future.wait([
+      paymentTypeFuture,
+      userFuture,
+      orderProductsFuture,
+    ]);
+
     return OrderDto(
       id: order.id,
       date: order.date,
       status: order.status,
-      orderProduct: response[2] as List<OrderProductDto>,
-      user: response[1] as UserModel,
+      orderProduct: responses[2] as List<OrderProductDto>,
+      user: responses[1] as UserModel,
       address: order.address,
       cpf: order.cpf,
-      paymentTypeModel: response[0] as PaymentTypeModel,
+      paymentTypeModel: responses[0] as PaymentTypeModel,
     );
   }
 
   Future<List<OrderProductDto>> _orderProductParse(OrderModel order) async {
     final orderProducts = <OrderProductDto>[];
     final productsFuture = order.orderProducts
-        .map((e) => _productRepository.getProduct(e.productId))
+        .map((e) => _productsRepository.getProduct(e.productId))
         .toList();
     final products = await Future.wait(productsFuture);
+
     for (var i = 0; i < order.orderProducts.length; i++) {
       final orderProduct = order.orderProducts[i];
       final productDto = OrderProductDto(

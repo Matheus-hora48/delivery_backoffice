@@ -13,7 +13,7 @@ class UserRepositoryImpl implements UserRepository {
   UserRepositoryImpl(this._dio);
 
   @override
-  Future<UserModel> getBuyId(int id) async {
+  Future<UserModel> getById(int id) async {
     try {
       final userReponse = await _dio.get('/users/$id');
       return UserModel.fromMap(userReponse.data);

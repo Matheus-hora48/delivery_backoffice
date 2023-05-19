@@ -5,14 +5,15 @@ import '../../../../dto/order/order_dto.dart';
 import '../../../../models/orders/order_status.dart';
 import '../../order_controller.dart';
 
-class OrderButtonBar extends StatelessWidget {
+class OrderBottomBar extends StatelessWidget {
   final OrderController controller;
   final OrderDto order;
-  const OrderButtonBar({
-    Key? key,
+
+  const OrderBottomBar({
+    super.key,
     required this.controller,
     required this.order,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +26,8 @@ class OrderButtonBar extends StatelessWidget {
             topLeft: Radius.circular(10),
             bottomLeft: Radius.circular(10),
           ),
-          buttonColor: Colors.blue,
-          image:
-              'delivery_backoffice/assets/images/icons/finish_order_white_ico.png',
+          color: Colors.blue,
+          image: 'assets/images/icons/finish_order_white_ico.png',
           buttonLabel: 'Finalizar',
           onPressed: order.status == OrderStatus.confirmado
               ? () {
@@ -37,9 +37,8 @@ class OrderButtonBar extends StatelessWidget {
         ),
         OrderBottomBarButton(
           borderRadius: BorderRadius.zero,
-          buttonColor: Colors.green,
-          image:
-              'delivery_backoffice/assets/images/icons/confirm_order_white_icon.png',
+          color: Colors.green,
+          image: 'assets/images/icons/confirm_order_white_icon.png',
           buttonLabel: 'Confirmar',
           onPressed: order.status == OrderStatus.pendente
               ? () {
@@ -52,9 +51,8 @@ class OrderButtonBar extends StatelessWidget {
             topRight: Radius.circular(10),
             bottomRight: Radius.circular(10),
           ),
-          buttonColor: Colors.red,
-          image:
-              'delivery_backoffice/assets/images/icons/cancel_order_white_icon.png',
+          color: Colors.red,
+          image: 'assets/images/icons/cancel_order_white_icon.png',
           buttonLabel: 'Cancelar',
           onPressed: order.status != OrderStatus.cancelado &&
                   order.status != OrderStatus.finalizado
@@ -70,18 +68,17 @@ class OrderButtonBar extends StatelessWidget {
 
 class OrderBottomBarButton extends StatelessWidget {
   final BorderRadius borderRadius;
-  final Color buttonColor;
+  final Color color;
   final String image;
   final String buttonLabel;
   final VoidCallback? onPressed;
-
   const OrderBottomBarButton({
     super.key,
     required this.borderRadius,
-    required this.buttonColor,
+    required this.color,
     required this.image,
     required this.buttonLabel,
-    required this.onPressed,
+    this.onPressed,
   });
 
   @override
@@ -95,22 +92,18 @@ class OrderBottomBarButton extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: borderRadius,
             ),
-            side: BorderSide(
-              color: onPressed != null ? buttonColor : Colors.transparent,
-            ),
-            backgroundColor: buttonColor,
+            backgroundColor: color,
           ),
           onPressed: onPressed,
           child: Row(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(image),
-              const SizedBox(
-                width: 5,
-              ),
+              const SizedBox(width: 10),
               Text(
                 buttonLabel,
                 style: context.textStyles.textBold.copyWith(
+                  fontSize: 16,
                   color: Colors.white,
                 ),
               )

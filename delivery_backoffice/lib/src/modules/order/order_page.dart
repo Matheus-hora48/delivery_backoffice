@@ -24,7 +24,7 @@ class _OrderPageState extends State<OrderPage> with Loader, Messages {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       statusDisposer = reaction((_) => controller.status, (status) {
         switch (status) {
           case OrderStateStatus.initial:
@@ -37,7 +37,7 @@ class _OrderPageState extends State<OrderPage> with Loader, Messages {
             break;
           case OrderStateStatus.error:
             hideLoader();
-            showError(controller.errorMessage ?? 'Erro interno');
+            showError(controller.errorMessage ?? 'Erro não previsto');
             break;
           case OrderStateStatus.showDetailModal:
             hideLoader();
@@ -75,38 +75,31 @@ class _OrderPageState extends State<OrderPage> with Loader, Messages {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-      builder: (_, constrains) {
-        return Container(
-          padding: const EdgeInsets.only(top: 40),
-          child: Column(
-            children: [
-              OrderHeader(
-                controller: controller,
+      builder: (_, constraints) {
+        return Column(
+          children: [
+            OrderHeader(
+              controller: controller,
+            ),
+            const SizedBox(height: 50),
+            Expanded(
+              child: Observer(
+                builder: (_) {
+                  return GridView.builder(
+                    itemCount: controller.orders.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                      mainAxisExtent: 91,
+                      maxCrossAxisExtent: 600,
+                    ),
+                    itemBuilder: (context, index) {
+                      return OrderItem(order: controller.orders[index]);
+                    },
+                  );
+                },
               ),
-              const SizedBox(
-                height: 50,
-              ),
-              Expanded(
-                child: Observer(
-                  builder: (_) {
-                    return GridView.builder(
-                      itemCount: controller.orders.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                        mainAxisExtent: 91,
-                        maxCrossAxisExtent: 600,
-                      ),
-                      itemBuilder: (context, index) {
-                        return OrderItem(
-                          order: controller.orders[index],
-                        );
-                      },
-                    );
-                  },
-                ),
-              )
-            ],
-          ),
+            ),
+          ],
         );
       },
     );

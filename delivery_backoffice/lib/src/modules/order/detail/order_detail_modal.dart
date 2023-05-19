@@ -12,9 +12,12 @@ import 'widgets/order_info_tile.dart';
 class OrderDetailModal extends StatefulWidget {
   final OrderController controller;
   final OrderDto order;
-  const OrderDetailModal(
-      {Key? key, required this.controller, required this.order})
-      : super(key: key);
+
+  const OrderDetailModal({
+    super.key,
+    required this.controller,
+    required this.order,
+  });
 
   @override
   State<OrderDetailModal> createState() => _OrderDetailModalState();
@@ -31,9 +34,7 @@ class _OrderDetailModalState extends State<OrderDetailModal> {
     return Material(
       color: Colors.black26,
       child: Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         backgroundColor: Colors.white,
         elevation: 10,
         child: Container(
@@ -47,61 +48,57 @@ class _OrderDetailModalState extends State<OrderDetailModal> {
                     Align(
                       alignment: Alignment.center,
                       child: Text(
-                        'Detalhe do pedido',
+                        'Detalhe do Pedido',
                         textAlign: TextAlign.center,
                         style: context.textStyles.textTitle,
                       ),
                     ),
                     Align(
-                      alignment: Alignment.topRight,
-                      child: IconButton(
-                        onPressed: _closeModal,
-                        icon: const Icon(Icons.close),
+                      alignment: Alignment.centerRight,
+                      child: InkWell(
+                        onTap: _closeModal,
+                        child: const Icon(Icons.close),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 Row(
                   children: [
                     Text(
-                      'Nome do cliente: ',
-                      style: context.textStyles.textBold,
+                      'Nome do Cliente: ',
+                      style: context.textStyles.textExtraBold
+                          .copyWith(fontSize: 16),
                     ),
-                    const SizedBox(
-                      width: 20,
-                    ),
+                    const SizedBox(width: 20),
                     Text(
                       widget.order.user.name,
-                      style: context.textStyles.textRegular,
-                    )
+                      style:
+                          context.textStyles.textMedium.copyWith(fontSize: 16),
+                    ),
                   ],
                 ),
-                const Divider(),
-                ...widget.order.orderProduct
-                    .map(
-                      (op) => OrderProductItem(orderProduct: op),
-                    )
-                    .toList(),
-                const SizedBox(
-                  height: 10,
+                const Divider(
+                  height: 35,
                 ),
+                ...widget.order.orderProduct
+                    .map((op) => OrderProductItem(orderProduct: op))
+                    .toList(),
+                const SizedBox(height: 10),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Total do pedido',
+                        'Total do Pedido',
                         style: context.textStyles.textExtraBold.copyWith(
                           fontSize: 18,
                         ),
                       ),
                       Text(
                         widget.order.orderProduct
-                            .fold<double>(
+                            .fold(
                               0.0,
                               (previousValue, p) =>
                                   previousValue + p.totalPrice,
@@ -114,20 +111,43 @@ class _OrderDetailModalState extends State<OrderDetailModal> {
                     ],
                   ),
                 ),
-                const Divider(),
+                const SizedBox(height: 20),
+                Container(
+                  height: 0.1,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                        width: 1,
+                        color: Colors.grey.shade300,
+                      ),
+                    ),
+                  ),
+                ),
+                //const SizedBox(height: 10),
                 OrderInfoTile(
-                  label: 'Endereço de entrega',
+                  label: 'Endereço de entrega : ',
                   info: widget.order.address,
                 ),
-                const Divider(),
+                Container(
+                  height: 0.1,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                        width: 1,
+                        color: Colors.grey.shade300,
+                      ),
+                    ),
+                  ),
+                ),
                 OrderInfoTile(
-                  label: 'Forma de pagameto',
+                  label: 'Forma de Pagamento: ',
                   info: widget.order.paymentTypeModel.name,
                 ),
-                const SizedBox(
-                  height: 10,
+                const SizedBox(height: 20),
+                OrderBottomBar(
+                  controller: widget.controller,
+                  order: widget.order,
                 ),
-                OrderButtonBar(controller: widget.controller, order: widget.order),
               ],
             ),
           ),
